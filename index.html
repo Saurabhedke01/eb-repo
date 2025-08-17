@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Independence Day 🇮🇳</title>
+  <meta name="description" content="A festive Independence Day greeting page for India (15 August)." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230080ff'/%3E%3Ccircle cx='32' cy='32' r='26' fill='white'/%3E%3Cg fill='none' stroke='%230080ff' stroke-width='2'%3E%3Ccircle cx='32' cy='32' r='8'/%3E%3C/ g%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --saffron:#FF9933;
+      --white:#FFFFFF;
+      --green:#138808;
+      --navy:#000080;
+      --bg:#0b1020;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:#fff;
+      background: radial-gradient(1200px 800px at 70% -20%, rgba(255,153,51,0.25), transparent 60%),
+                  radial-gradient(1200px 800px at 30% 120%, rgba(19,136,8,0.25), transparent 60%),
+                  linear-gradient(180deg, #0b1020 0%, #0a0e1a 100%);
+      overflow-x:hidden;
+    }
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Top ribbons */
+    .ribbon{
+      position:fixed;left:0;right:0;top:0;height:10px;z-index:50;
+      background: linear-gradient(90deg, var(--saffron), var(--white), var(--green));
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,.3));
+    }
+
+    main{
+      min-height:100vh;display:grid;place-items:center;padding:clamp(16px, 3vw, 40px);
+    }
+
+    .card{
+      width:min(100%, 960px);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:24px; padding:clamp(20px,5vw,48px);
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      position:relative; overflow:hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Floating orbs */
+    .orb{position:absolute;border-radius:999px;filter:blur(40px);opacity:.18;mix-blend-mode:screen}
+    .orb.saffron{background:var(--saffron);width:260px;height:260px;top:-60px;left:-60px;animation:float 16s ease-in-out infinite alternate}
+    .orb.green{background:var(--green);width:260px;height:260px;bottom:-80px;right:-80px;animation:float 18s ease-in-out 1s infinite alternate}
+
+    @keyframes float{to{transform:translate(20px, 20px) scale(1.05);}}
+
+    .header{
+      display:grid;gap:16px;align-items:center;
+      grid-template-columns:minmax(0,1fr);
+      text-align:center;
+    }
+    .chakra{width:120px;height:120px;margin:0 auto;}
+    .title{font-size: clamp(28px, 6vw, 56px); font-weight:800; line-height:1.08; margin:4px 0;}
+    .title .flag{display:inline-block;transform:translateY(3px)}
+    .subtitle{font-size: clamp(14px, 2.2vw, 20px);opacity:.9;}
+
+    .cta{
+      display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px
+    }
+    .btn{
+      appearance:none;border:0;border-radius:999px;padding:12px 18px;font-weight:700;
+      cursor:pointer;transition:transform .12s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn.share{background:rgba(255,255,255,.12); color:#fff;}
+    .btn.share:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .btn.copy{background:linear-gradient(90deg, var(--saffron), var(--green)); color:#08121a}
+    .btn.copy:hover{transform:translateY(-2px)}
+
+    .wish{
+      margin-top:26px; font-size:clamp(16px, 2.3vw, 22px); line-height:1.6; text-wrap:pretty;
+    }
+    .wish strong{color:#fff}
+
+    footer{margin-top:28px; opacity:.7; font-size:13px; text-align:center}
+
+    /* Fireworks canvas sits behind content */
+    #fx{position:fixed; inset:0; z-index:0; pointer-events:none}
+
+    /* Confetti streamers */
+    .confetti{position:fixed;top:-10vh;left:0;right:0;height:0;pointer-events:none;z-index:40}
+    .piece{position:absolute;top:-10vh;width:8px;height:14px;border-radius:2px;opacity:.9;animation:drop linear forwards}
+    @keyframes drop{to{transform:translateY(120vh) rotate(540deg);}}
+
+    /* Responsive extras */
+    @media (min-width: 700px){
+      .header{grid-template-columns:160px 1fr; text-align:left}
+      .chakra{margin:0}
+    }
+  </style>
+</head>
+<body>
+  <div class="ribbon" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="confetti" aria-hidden="true"></div>
+
+  <main>
+    <section class="card" role="region" aria-label="Independence Day greeting">
+      <span class="orb saffron" aria-hidden="true"></span>
+      <span class="orb green" aria-hidden="true"></span>
+
+      <div class="header">
+        <!-- Ashoka Chakra (SVG) -->
+        <svg class="chakra" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+          <circle cx="100" cy="100" r="58" fill="none" stroke="var(--navy)" stroke-width="6"/>
+          <g stroke="var(--navy)" stroke-width="6" stroke-linecap="round">
+            <!-- 24 spokes -->
+            <g id="spoke">
+              <line x1="100" y1="100" x2="100" y2="42"/>
+            </g>
+            <use href="#spoke" transform="rotate(15 100 100)"/>
+            <use href="#spoke" transform="rotate(30 100 100)"/>
+            <use href="#spoke" transform="rotate(45 100 100)"/>
+            <use href="#spoke" transform="rotate(60 100 100)"/>
+            <use href="#spoke" transform="rotate(75 100 100)"/>
+            <use href="#spoke" transform="rotate(90 100 100)"/>
+            <use href="#spoke" transform="rotate(105 100 100)"/>
+            <use href="#spoke" transform="rotate(120 100 100)"/>
+            <use href="#spoke" transform="rotate(135 100 100)"/>
+            <use href="#spoke" transform="rotate(150 100 100)"/>
+            <use href="#spoke" transform="rotate(165 100 100)"/>
+            <use href="#spoke" transform="rotate(180 100 100)"/>
+            <use href="#spoke" transform="rotate(195 100 100)"/>
+            <use href="#spoke" transform="rotate(210 100 100)"/>
+            <use href="#spoke" transform="rotate(225 100 100)"/>
+            <use href="#spoke" transform="rotate(240 100 100)"/>
+            <use href="#spoke" transform="rotate(255 100 100)"/>
+            <use href="#spoke" transform="rotate(270 100 100)"/>
+            <use href="#spoke" transform="rotate(285 100 100)"/>
+            <use href="#spoke" transform="rotate(300 100 100)"/>
+            <use href="#spoke" transform="rotate(315 100 100)"/>
+            <use href="#spoke" transform="rotate(330 100 100)"/>
+            <use href="#spoke" transform="rotate(345 100 100)"/>
+          </g>
+          <circle cx="100" cy="100" r="6" fill="var(--navy)"/>
+        </svg>
+
+        <div>
+          <h1 class="title">Happy <span style="color:var(--saffron)">Independence</span> Day <span class="flag">🇮🇳</span></h1>
+          <p class="subtitle">Wishing you pride, peace, and progress on this 15 August. Jai Hind!</p>
+          <div class="cta">
+            <button class="btn share" id="shareBtn" type="button">Share This Greeting</button>
+            <button class="btn copy" id="copyBtn" type="button">Copy Message</button>
+          </div>
+          <p class="wish" id="wishText">
+            <strong>"May the tricolour always fly high"</strong> — Celebrating our freedom, honouring our heroes, and believing in a brighter tomorrow for every Indian. Happy Independence Day!
+          </p>
+          <footer>
+            Made with ❤️ for India · 15 August
+          </footer>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // --- Share & Copy helpers ---
+    const shareBtn = document.getElementById('shareBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const wishText = document.getElementById('wishText').innerText;
+
+    shareBtn?.addEventListener('click', async () => {
+      const shareData = {
+        title: 'Happy Independence Day 🇮🇳',
+        text: wishText,
+        url: location.href
+      };
+      try{
+        if(navigator.share){
+          await navigator.share(shareData);
+        }else{
+          await navigator.clipboard.writeText(shareData.title + '\n' + shareData.text);
+          alert('Message copied! You can paste and share it anywhere.');
+        }
+      }catch(e){
+        console.error(e);
+      }
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText('Happy Independence Day 🇮🇳 — ' + wishText);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(()=> copyBtn.textContent = 'Copy Message', 1400);
+      }catch(e){
+        alert('Copy not available. Select and copy manually.');
+      }
+    });
+
+    // --- Simple fireworks on canvas ---
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+    let w, h; function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; } resize(); addEventListener('resize', resize);
+
+    function Firework(){
+      this.x = Math.random()*w; this.y = h; this.tx = Math.random()*w; this.ty = Math.random()*h*0.5 + h*0.1;
+      this.color = Math.random()>.5 ? 'rgba(255,153,51,1)' : 'rgba(19,136,8,1)';
+      this.sx = this.x; this.sy = this.y; this.progress = 0; this.speed = 0.015 + Math.random()*0.01;
+      this.exploded = false; this.particles = [];
+    }
+    Firework.prototype.update = function(){
+      if(!this.exploded){
+        this.progress += this.speed;
+        const nx = this.sx + (this.tx - this.sx)*this.progress;
+        const ny = this.sy + (this.ty - this.sy)*this.progress;
+        this.x = nx; this.y = ny;
+        if(this.progress >= 1){ this.exploded = true; this.explode(); }
+      }
+      this.particles.forEach(p=>p.update());
+      this.particles = this.particles.filter(p=>p.life>0);
+    }
+    Firework.prototype.draw = function(){
+      if(!this.exploded){
+        ctx.fillStyle = '#fff'; ctx.fillRect(this.x, this.y, 2, 2);
+      }
+      this.particles.forEach(p=>p.draw());
+    }
+    Firework.prototype.explode = function(){
+      const count = 40 + Math.random()*30;
+      for(let i=0;i<count;i++) this.particles.push(new Particle(this.x, this.y));
+    }
+
+    function Particle(x,y){
+      this.x=x; this.y=y; this.vx = (Math.random()-0.5)*6; this.vy = (Math.random()-0.5)*6; this.life = 60 + Math.random()*30;
+      this.col = Math.random()>.5 ? 'rgba(255,153,51,1)' : 'rgba(19,136,8,1)';
+    }
+    Particle.prototype.update = function(){ this.x+=this.vx; this.y+=this.vy; this.vy += 0.04; this.life--; }
+    Particle.prototype.draw = function(){ ctx.fillStyle = this.col; ctx.fillRect(this.x, this.y, 2, 2); }
+
+    let fireworks = [];
+    function loop(){
+      ctx.fillStyle = 'rgba(11,16,32,0.25)';
+      ctx.fillRect(0,0,w,h);
+      if(Math.random() < 0.05) fireworks.push(new Firework());
+      fireworks.forEach(f=>{ f.update(); f.draw();});
+      fireworks = fireworks.filter(f=> !f.exploded || f.particles.length>0);
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // --- Confetti ---
+    const confetti = document.querySelector('.confetti');
+    function makeConfetti(){
+      const total = 80; confetti.innerHTML='';
+      for(let i=0;i<total;i++){
+        const el = document.createElement('span');
+        el.className = 'piece';
+        const hue = i % 3 === 0 ? 'var(--saffron)' : i % 3 === 1 ? 'var(--white)' : 'var(--green)';
+        el.style.background = hue; el.style.left = Math.random()*100 + 'vw';
+        el.style.animationDuration = (8 + Math.random()*6) + 's';
+        el.style.animationDelay = (Math.random()*2) + 's';
+        confetti.appendChild(el);
+      }
+    }
+    makeConfetti();
+  </script>
+</body>
+</html>
